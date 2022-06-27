@@ -1,0 +1,20 @@
+{
+  "name": "code-diff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node html/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/POILover/code-diff.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/POILover/code-diff/issues"
+  },
+  "homepage": "https://github.com/POILover/code-diff#readme"
+}
