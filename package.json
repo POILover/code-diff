@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "node html/index.js"
+    "serve": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/POILover/code-diff/issues"
   },
-  "homepage": "https://github.com/POILover/code-diff#readme"
+  "homepage": "https://github.com/POILover/code-diff#readme",
+  "dependencies": {
+    "diff": "^5.1.0",
+    "diff2html": "^3.4.17"
+  }
 }

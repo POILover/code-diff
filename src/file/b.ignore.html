@@ -1,0 +1,61 @@
+<html>
+<div id="slot1"></div>
+<div id="slot2"></div>
+
+</html>
+<script>
+    let data = { num1: 10, num2: 20, bool: true };
+    let bucket = new WeakMap();
+    let obj = new Proxy(data, {
+        get: function (target, key) {
+            track(target, key);
+            return target[key];
+        },
+        set: function (target, key, value) {
+            target[key] = value;
+            trigger(target, key);
+        }
+    })
+
+    function track(target, key){
+        if(!activeEffect){
+            return;
+        }
+        let depsMap = bucket.get(target);
+        if (!depsMap) {
+            bucket.set(target, depsMap = new Map());
+        }
+        let deps = depsMap.get(key);
+        if (!deps) {
+            depsMap.set(key, deps = new Set())
+        }
+        deps.add(activeEffect);
+    }
+
+    function trigger(target, key){
+        let depsMap = bucket.get(target);
+        if(!depsMap){
+            return;
+        }
+        const effects = depsMap.get(key);
+    }
+
+    let activeEffect;
+    // function effect(fn) {
+    //     const effectFn = () => {
+    //         cleanup(effectFn);
+    //         activeEffect = effectFn;
+    //         fn();
+    //     }
+    //     effectFn.deps = [];
+    //     activeEffect = effectFn;
+    //     fn();
+    // }
+    function effect(fn) {
+    }
+
+    
+    // 测试案例
+
+
+</script>
