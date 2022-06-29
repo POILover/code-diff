@@ -6,12 +6,46 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>Document</title>
  </head>
-
+ <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css" />
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
+ <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
+ <script src="https://cdn.bootcdn.net/ajax/libs/jsdiff/5.1.0/diff.js"></script>
+ 
+ <script>
+    
+    window.onload=()=>{
+        const diffDom1 = document.getElementById("diff-text-1").innerText;
+        console.log(diffDom1)
+        const diffDom2 = document.getElementById("diff-text-2").innerText;
+        const diffString = Diff.createPatch('', diffDom1, diffDom2, "", "");
+        console.log(Diff.diffLines(diffDom1,diffDom2),diffString)
+        const targetElement = document.getElementById('diff-ui');
+        const configuration = { drawFileList: true, matching: 'lines', highlight: false };
+        // TODO: hljs language
+        const diff2htmlUi = new Diff2HtmlUI(targetElement, diffString, configuration);
+        diff2htmlUi.draw();
+        // diff2htmlUi.highlightCode();
+    }
+    function escapeChars(str) {
+        str = str.replace(/&/g, '&amp;');
+        str = str.replace(/</g, '&lt;');
+        str = str.replace(/>/g, '&gt;');
+        str = str.replace(/'/g, '&acute;');
+        str = str.replace(/"/g, '&quot;');
+        str = str.replace(/\|/g, '&brvbar;');
+        return str;
+    }
  </script>
  <body>
-     {{ insertDom }}
+    <div id="diff-text-1" style="display: none;">
+        {{insertText1}}
+    </div>
+    <div id="diff-text-2" style="display: none;">
+        {{insertText2}}
+    </div>
+    <div id="diff-ui"></div>
  </body>
 <style>
-    {{ insertStyle }}
 </style>
  </html>
