@@ -1,66 +1,26 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Document</title>
- </head>
- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css" />
- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css" />
- <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
- <script src="https://cdn.bootcdn.net/ajax/libs/jsdiff/5.1.0/diff.js"></script>
- 
- <script>
-    
-    window.onload=()=>{
-        const diffDom1 = document.getElementById("diff-text-1").innerText;
-        const diffDom2 = document.getElementById("diff-text-2").innerText;
-        const diffString = Diff.createPatch('', diffDom1, diffDom2, "", "");
-        // console.table(Diff.diffLines(diffDom1,diffDom2));
-        const linesDiffResult = Diff.diffLines(diffDom1,diffDom2);
-        const linesDiffString = 
-            `     Index: 
-===================================================================
---- 	
-+++`+linesDiffResult.map(item=>{
-                let value = item.value;
-                if(item.added){                  
-                    return value.split('\n').map(v=>`+`+v).join('\n');
-                }
-                if(item.removed){
-                    return value.split('\n').map(v=>`-`+v).join('\n');
-                }
-                return value
-            }).join('')
-        console.log(linesDiffString,diffString)
-        const targetElement = document.getElementById('diff-ui');
-        const configuration = { drawFileList: true, matching: 'lines', highlight: false };
-        // TODO: hljs language
-        const diff2htmlUi = new Diff2HtmlUI(targetElement, linesDiffString, configuration);
-        diff2htmlUi.draw();
-        // diff2htmlUi.highlightCode();
-    }
-    function escapeChars(str) {
-        str = str.replace(/&/g, '&amp;');
-        str = str.replace(/</g, '&lt;');
-        str = str.replace(/>/g, '&gt;');
-        str = str.replace(/'/g, '&acute;');
-        str = str.replace(/"/g, '&quot;');
-        str = str.replace(/\|/g, '&brvbar;');
-        return str;
-    }
- </script>
- <body>
-    <div id="diff-text-1" style="display: none;">
-        {{insertText1}}
-    </div>
-    <div id="diff-text-2" style="display: none;">
-        {{insertText2}}
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="/src/lib/css/hljs.github.css" />
+<link rel="stylesheet" type="text/css" href="/src/lib/css/diff2html.min.css" />
+<script src="/src/lib/js/diff2html-ui.min.js"></script>
+<script src="/src/lib/js/diff.js"></script>
+
+<script src="/src/js/index.js"></script>
+
+<body>
+    <div id="diff-text-1" style="display: none">{{insertText1}}</div>
+    <div id="diff-text-2" style="display: none">{{insertText2}}</div>
     <div id="diff-ui"></div>
- </body>
-<style>
-</style>
- </html>
+</body>
+
+<style></style>
+
+</html>

@@ -1,0 +1,93 @@
+<html>
+<div id="slot1"></div>
+<div id="slot2"></div>
+
+</html>
+<script>
+    /* 
+        -  需求
+        1. 在渲染函数中, 若读取和修改属性的操作同时存在, 会导致无限循环
+
+        -  分析effect(()=>{obj.num1++})
+        1. getter(obj.num1) --> setter( --> 赋值(target[key]=obj.num1+1) --> 渲染函数(getter --> setter( --> 赋值(target[key]=obj.num1+1) --> 渲染函数...)))
+        2. 根结在于trigger触发的渲染函数与tracker绑定的渲染函数一样, 边触发边绑定导致了无限循环, 所以如果它们相同则不触发trigger即可
+
+        -  方案
+        1. getter(obj.num1) --> setter( --> 赋值(target[key]=obj.num1+1) -x-> 渲染函数...))
+    */
+    let data = { num1: 10, num2: 20, bool: true };
+    let bucket = new WeakMap();
+    let obj = new Proxy(data, {
+        get: function (target, key) {
+            track(target, key);
+            return target[key];
+        },
+        set: function (target, key, value) {
+            target[key] = value;
+            trigger(target, key);
+        }
+    })
+
+    function track(target, key){
+        if(!activeEffect){
+            return;
+        }
+        let depsMap = bucket.get(target);
+        if (!depsMap) {
+            bucket.set(target, depsMap = new Map());
+        }
+        let deps = depsMap.get(key);
+        if (!deps) {
+            depsMap.set(key, deps = new Set())
+        }
+        deps.add(activeEffect);
+        activeEffect.deps.push(deps);
+    }
+
+    function trigger(target, key){
+        let depsMap = bucket.get(target);
+        if(!depsMap){
+            return;
+        }
+        const effects = depsMap.get(key);
+        const effectsToRun = new Set();
+        effects && effects.forEach(effectFn => {
+            // 若执行的渲染函数和全局副作用函数相同, 则不执行
+            if(effectFn !== activeEffect){
+                effectsToRun.add(effectFn);
+            }
+        })
+        effectsToRun.forEach(fn => fn());
+    }
+
+    let activeEffect;
+    const effectStack = [];
+    function effect(fn) {
+        const effectFn = () => {
+            cleanup(effectFn);
+            activeEffect = effectFn;
+            effectStack.push(effectFn);
+            fn();
+            effectStack.pop();
+            activeEffect = effectStack[effectStack.length - 1];
+        }
+        effectFn.deps = [];
+        effectFn();
+    }
+
+    function cleanup(effectFn) {
+        for (let i = 0; i < effectFn.deps.length; i++) {
+            const deps = effectFn.deps[i];
+            deps.delete(effectFn);
+        }
+        effectFn.deps.length = 0;
+    }
+
+    // 测试案例 
+    effect(() => {
+        obj.num1++;
+        document.getElementById('slot1').innerText = `${obj.num1}-1`;
+    })
+
+
+</script>
