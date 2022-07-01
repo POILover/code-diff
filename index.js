@@ -1,27 +1,41 @@
-const http = require("http");
+const express = require('express');
+const app = express();
 const fs = require("fs");
+const fileNameList = fs.readdirSync('./src/file/compare');
+const total = fileNameList.length;
 
-const server = http.createServer((req, res)=>{
-    const url = req.url;
-    if(url==="/"){
+app.get('/index', (req, res) => {
+    console.log(req.url)
+    const urlParsed = parseUrl(req.url);
+    const urlPath = urlParsed.path;
+    const urlQuery = urlParsed.query;
+    
+    if(urlPath==="/index"){
+        const current = urlQuery.page;
         res.setHeader('Content-Type', "text/html");
-        const insertText1 = escapeChars(readAsyncFile("./src/file/g.ignore.html"));
-        const insertText2 = escapeChars(readAsyncFile("./src/file/g.html"));
-        res.write(insertDomToTemplate({insertText1, insertText2}));
-        res.end();
-    }else if(url.substring(0,4)==="/src"){
-        res.end(readAsyncFile(`.${url}`))
+        if(current){
+            try{
+                const fileName = fileNameList[current - 1]
+                const insertText1 = escapeChars(readAsyncFile(`./src/file/ignore/${fileName}`));
+                const insertText2 = escapeChars(readAsyncFile(`./src/file/compare/${fileName}`));
+                res.send(insertDomToTemplate({current, total ,insertText1, insertText2}));
+            }catch{
+                res.send("wrong file");
+            }
+            
+        }else{
+            res.send("no file")
+        }
     }
-    res.end()
-    
-    
-    
-});
-
-server.listen(9527, "127.0.0.1", () => {
-    console.log("server is running at 9527.")
 })
 
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
+const port = 9526
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
 const template = readAsyncFile("./src/template.html");
 
 function insertDomToTemplate(obj){
@@ -49,4 +63,17 @@ function escapeChars(str) {
     // str = str.replace(/"/g, '&quot;');
     // str = str.replace(/\|/g, '&brvbar;');
     return str;
+}
+
+function parseUrl(url){
+    const [path, queryString] = url.split('?');
+    const query = {};
+    if(queryString){
+        const queryArr = queryString.split('&');
+        queryArr.forEach(q=>{
+            const [qk, qv] = q.split("=");
+            query[qk] = qv;
+        })
+    }
+    return {path, query}
 }

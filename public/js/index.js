@@ -1,14 +1,33 @@
 window.onload = () => {
-    const diffDom1 = document.getElementById("diff-text-1").innerText;
-    const diffDom2 = document.getElementById("diff-text-2").innerText;
+    console.log(window)
+
+    const text1 = getElementById("diff-text-1").innerText;
+    const text2 = getElementById("diff-text-2").innerText;
+    const current = + getElementById("diff-file-current").innerText;
+    const total = + getElementById("diff-file-total").innerText;
+
+    const prevDom = getElementById("prev-btn");
+    const nextDom = getElementById("next-btn");
+    if(current === 1){
+        prevDom.setAttribute("disabled", `true`)
+        
+    }else{
+        prevDom.setAttribute("href", `/index?page=${current - 1}`)
+    }
+    if(current === total){
+        nextDom.setAttribute("disabled", `true`)
+    }else{
+        nextDom.setAttribute("href", `/index?page=${current + 1}`)
+    }
+
     // use Diff because diff2html can't get full file diff patch
-    const diffLinesResult = Diff.diffLines(diffDom1, diffDom2);
+    const diffLinesResult = Diff.diffLines(text1, text2);
     const linesDiffString =
         generateUnifiedHeader() + resolveDiffLinesResult(diffLinesResult);
     console.log(diffLinesResult, linesDiffString)
-    const targetElement = document.getElementById("diff-ui");
+    const targetElement = getElementById("diff-ui");
     const configuration = {
-        drawFileList: true,
+        drawFileList: false,
         matching: "lines",
         highlight: true,
     };
@@ -27,7 +46,9 @@ function generateUnifiedHeader(fromFile = "from.js", toFile = "to.js") {
     return `--- ${fromFile}\n+++ ${toFile}\n@@ -1,86 +1,145 @@\n`;
 }
 
-
+function getElementById(id){
+    return document.getElementById(id);
+}
 /**
  * 
  * @param { DiffArray } diffLinesResult 
@@ -43,10 +64,10 @@ function generateUnifiedHeader(fromFile = "from.js", toFile = "to.js") {
  * 2. if there is no '\n' in value, like '</script>', 
  *    we can consider it as the last line of file.
  *    If no change, seems add '  ' is enough,
- *    But if has change, like we will see two values which have no '\n', so a '\n' is needed to add at the former one to make two lines.
+ *    But if has change, there will be two values which have no '\n', so a '\n' is needed to add at the former one to make two lines in html.
  *    Simply we can always add a '\n' after the string in such situation.
  * 
- * So the common rule seems like splitValueArrayLength===1 ? prefix + value + '\n' : prefix + splitStr + '\n'
+ * So the common rule seems like splitValueArrayLength===1 ? prefix + value + '\n' : prefix + splitStr + '\n'.
  * 
  */
 function resolveDiffLinesResult(diffLinesResult) {

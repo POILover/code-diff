@@ -41,20 +41,16 @@
     }
 
     let activeEffect;
-    // function effect(fn) {
-    //     const effectFn = () => {
-    //         cleanup(effectFn);
-    //         activeEffect = effectFn;
-    //         fn();
-    //     }
-    //     effectFn.deps = [];
-    //     activeEffect = effectFn;
-    //     fn();
-    // }
     function effect(fn) {
     }
-
     
     // 测试案例
+    const effect1 = () => {
+    }
+    const effect2 = () => {
+        document.getElementById('slot2').innerText = `${obj.num2}-2`;
+    }
+    effect(effect1);
+    effect(effect2);
 
 </script>
