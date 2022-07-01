@@ -22,32 +22,49 @@ window.onload = () => {
 };
 
 // funny that diff2html-ui chooses language from suffix of the file name to highlight code.
-// unified diff patch header is also needed, see https://www.gnu.org/software/diffutils/manual/html_node/Unified-Format.html
-function generateUnifiedHeader(fromFile="from.js", toFile="to.js") {
+// unified diff patch header is also needed, see also https://www.gnu.org/software/diffutils/manual/html_node/Unified-Format.html
+function generateUnifiedHeader(fromFile = "from.js", toFile = "to.js") {
     return `--- ${fromFile}\n+++ ${toFile}\n@@ -1,86 +1,145 @@\n`;
 }
 
-// merge diff result as unified diff patch (full size)
-// TODO: need debug
+
+/**
+ * 
+ * @param { DiffArray } diffLinesResult 
+ * @returns { String } unified diff patch
+ * @description
+ * merge diff result as unified diff patch (full size)
+ * 
+ * merge rules
+ * 
+ * 1. for common value, like '  aaa\n  bbbb\n  ccc\n',
+ *    every piece of value before '\n' needs add '+ ' if added, '- ' if removed, '  ' if no change.
+ * 
+ * 2. if there is no '\n' in value, like '</script>', 
+ *    we can consider it as the last line of file.
+ *    If no change, seems add '  ' is enough,
+ *    But if has change, like we will see two values which have no '\n', so a '\n' is needed to add at the former one to make two lines.
+ *    Simply we can always add a '\n' after the string in such situation.
+ * 
+ * So the common rule seems like splitValueArrayLength===1 ? prefix + value + '\n' : prefix + splitStr + '\n'
+ * 
+ */
 function resolveDiffLinesResult(diffLinesResult) {
     return diffLinesResult
-        .map((item, itemIdx) => {
+        .map((item) => {
             let value = item.value;
             const valueArr = value.split("\n");
-            const valueArrMaxIndex = valueArr.length - 1;
-            if (item.added) {
+            valueArr.pop(); //delete tail's blank item, if last line, valueArr will contain nothing.
+            const prefix = item.added ? "+ " : item.removed ? "- " : "  ";
+            if (valueArr.length===0) {
+                // last line
+                return `${prefix}${value}\n`;
+            } else {
+                // not last line
                 return valueArr
-                    .map((v, vIdx) => (vIdx === valueArrMaxIndex ? v : (`+ ` + v)))
-                    .join("\n");
+                    .map(v => `${prefix}${v}\n`)
+                    .join("");
             }
-            if (item.removed) {
-                return valueArr
-                    .map((v, vIdx) => (vIdx === valueArrMaxIndex ? v : (`- ` + v)))
-                    .join("\n");
-            }
-            return valueArr
-                .map((v, vIdx) => ((vIdx === valueArrMaxIndex)&&itemIdx!==diffLinesResult.length-1 ? v : (`  ` + v)))
-                .join("\n");
         })
         .join("");
 }
