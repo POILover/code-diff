@@ -5,21 +5,22 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/static/favicon.png">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/hljs.github.css" />
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/diff2html.min.css" />
+    <script src="/static/lib/js/diff2html-ui.min.js"></script>
+    <script src="/static/lib/js/diff.js"></script>
+    <script src="/static/js/index.js"></script>
 </head>
 
-<link rel="stylesheet" type="text/css" href="/static/lib/css/hljs.github.css" />
-<link rel="stylesheet" type="text/css" href="/static/lib/css/diff2html.min.css" />
-<script src="/static/lib/js/diff2html-ui.min.js"></script>
-<script src="/static/lib/js/diff.js"></script>
-
-<script src="/static/js/index.js"></script>
-
 <body>
-    <div id="diff-file-current" style="display: none">{{current}}</div>
-    <div id="diff-file-total" style="display: none">{{total}}</div>
-    <div id="diff-text-1" style="display: none">{{insertText1}}</div>
-    <div id="diff-text-2" style="display: none">{{insertText2}}</div>
+    <div style="display: none">
+        <div id="diff-file-current">{{current}}</div>
+        <div id="diff-file-total" style="display: none">{{total}}</div>
+        <div id="diff-text-1" style="display: none">{{insertText1}}</div>
+        <div id="diff-text-2" style="display: none">{{insertText2}}</div>
+    </div>
     <div style="font-size: 18px;" class="ctrl-btn-container">
         <a id="prev-btn" disabled="true">←</a>  <a id="next-btn">→</a>
     </div>

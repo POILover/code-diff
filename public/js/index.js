@@ -1,10 +1,11 @@
 window.onload = () => {
-    console.log(window)
 
     const text1 = getElementById("diff-text-1").innerText;
     const text2 = getElementById("diff-text-2").innerText;
     const current = + getElementById("diff-file-current").innerText;
     const total = + getElementById("diff-file-total").innerText;
+
+    document.title = `Code Diff - ${current}`
 
     const prevDom = getElementById("prev-btn");
     const nextDom = getElementById("next-btn");
@@ -24,7 +25,6 @@ window.onload = () => {
     const diffLinesResult = Diff.diffLines(text1, text2);
     const linesDiffString =
         generateUnifiedHeader() + resolveDiffLinesResult(diffLinesResult);
-    console.log(diffLinesResult, linesDiffString)
     const targetElement = getElementById("diff-ui");
     const configuration = {
         drawFileList: false,

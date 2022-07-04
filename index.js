@@ -5,11 +5,8 @@ const fileNameList = fs.readdirSync('./src/file/compare');
 const total = fileNameList.length;
 
 app.get('/index', (req, res) => {
-    console.log(req.url)
     const urlParsed = parseUrl(req.url);
-    const urlPath = urlParsed.path;
-    const urlQuery = urlParsed.query;
-    
+    const { urlPath, urlQuery } = urlParsed;
     if(urlPath==="/index"){
         const current = urlQuery.page;
         res.setHeader('Content-Type', "text/html");
@@ -66,14 +63,14 @@ function escapeChars(str) {
 }
 
 function parseUrl(url){
-    const [path, queryString] = url.split('?');
-    const query = {};
+    const [urlPath, queryString] = url.split('?');
+    const urlQuery = {};
     if(queryString){
         const queryArr = queryString.split('&');
         queryArr.forEach(q=>{
             const [qk, qv] = q.split("=");
-            query[qk] = qv;
+            urlQuery[qk] = qv;
         })
     }
-    return {path, query}
+    return {urlPath, urlQuery}
 }
