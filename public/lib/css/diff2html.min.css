@@ -1,3 +1,9 @@
+.d2h-diff-table td{
+    height: 1.5em;
+}
+.d2h-diff-table tr{
+    height: 1.5em;
+}
 .d2h-d-none {
     display: none
 }
@@ -127,7 +133,7 @@
     -ms-user-select: none;
     user-select: none;
     white-space: nowrap;
-    width: 100%
+    /* width: 100% */
 }
 
 .d2h-code-side-line {
@@ -189,7 +195,9 @@
     overflow: hidden;
     padding: 0 .5em;
     text-overflow: ellipsis;
-    width: 3.5em
+    width: 3.5em;
+    height: 100%;
+    line-height: 1.5em;
 }
 
 .line-num2 {
@@ -200,8 +208,8 @@
     background-color: #fff;
     border: solid #eee;
     border-width: 0 1px;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    /* -webkit-box-sizing: border-box; */
+    /* box-sizing: border-box; */
     color: rgba(0, 0, 0, .3);
     cursor: pointer;
     display: inline-block;
