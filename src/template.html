@@ -15,6 +15,10 @@
 </head>
 
 <body>
+    <div class="ctrl">
+        <div class="ctrl-img left"></div>
+        <div class="ctrl-img right"></div>
+    </div>
     <div style="display: none">
         <div id="diff-file-current">{{current}}</div>
         <div id="diff-file-total" style="display: none">{{total}}</div>
@@ -28,6 +32,35 @@
 </body>
 
 <style>
+    @media screen and (min-width:700px) {
+        .ctrl-btn-container {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width:700px) {
+        .ctrl {
+            display: none;
+        }
+    }
+
+    .ctrl {
+        width: 100%;
+        height: 200px;
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+    }
+
+    .ctrl:hover .ctrl-img {
+        display: block;
+    }
+
+    .ctrl:hover {
+        display: block;
+    }
+
     .ctrl-btn-container span.disabled {
         color: #ccc;
         cursor: not-allowed;
@@ -35,6 +68,36 @@
 
     .ctrl-btn-container span {
         cursor: pointer;
+    }
+
+    .ctrl .ctrl-img {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        mask-image: url(/static/assets/pic/svg/left.svg);
+        -webkit-mask-image: url(/static/assets/pic/svg/left.svg);
+        mask-size: cover;
+        -webkit-mask-size: cover;
+        background-color: rgba(127, 127, 127, 0.1);
+        cursor: pointer;
+        display: none;
+    }
+
+    .ctrl .ctrl-img:hover {
+        background-color: #ccc;
+
+    }
+
+    .ctrl .right {
+        transform: translateY(-50%) rotate(180deg);
+        right: 30px;
+
+    }
+
+    .ctrl .left {
+        left: 10px;
     }
 </style>
 
