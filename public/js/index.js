@@ -7,6 +7,21 @@ window.onload = () => {
     // set page title
     document.title = `Code Diff - ${current}`;
 
+    document.body.addEventListener("mousemove", e => {
+        const windowHeight = window.innerHeight;
+        const mouseHeight = e.clientY;
+        const ratio = mouseHeight / windowHeight;
+        if (ratio < 0.7 && ratio > 0.3) {
+            document.querySelectorAll(".ctrl-icon").forEach(dom => {
+                dom.style.display = "block";
+            });
+        } else {
+            document.querySelectorAll(".ctrl-icon").forEach(dom => {
+                dom.style.display = "none";
+            });
+        }
+    });
+
     // set prev and next link attribute
     const prevDom = getElementById("prev-btn");
     const nextDom = getElementById("next-btn");
