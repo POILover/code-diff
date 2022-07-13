@@ -1,3 +1,4 @@
+@import url('./variables.css');
 @media screen and (min-width: 700px) {
     .ctrl-btn-container {
         display: none;
@@ -21,7 +22,7 @@
     -webkit-mask-size: cover;
     cursor: pointer;
     z-index: 2;
-    transition: background-color 0.5s;
+    transition: background-color 0.3s;
 }
 
 .ctrl-icon.left {
@@ -35,10 +36,12 @@
 }
 
 .ctrl-icon:hover {
-    background-color: #ccc !important;
+    background-color: var(--ctrlHoverColor) !important;
 }
-
+.ctrl-icon:active {
+    background-color: var(--ctrlFocusColor) !important;
+}
 /* hack: could only see one button after into next page */
 .ctrl-container:hover .ctrl-icon {
-    background-color: rgba(127, 127, 127, 0.1);
+    background-color: var(--ctrlColor);
 }

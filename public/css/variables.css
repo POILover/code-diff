@@ -1,0 +1,6 @@
+:root {
+    --ctrlColor:rgba(127, 127, 127, 0.2);
+    --ctrlHoverColor: rgba(127, 127, 127, 0.5);
+    --ctrlFocusColor:rgba(127, 127, 127, 0.3);
+    --ctrlHideColor:rgba(127, 127, 127, 0);
+}

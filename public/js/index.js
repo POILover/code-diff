@@ -36,11 +36,11 @@ window.onload = () => {
                 const xRight = bodyWidth - thresX;
                 if (mouseX < xLeft || (mouseX > xRight && mouseX < bodyWidth)) {
                     document.querySelectorAll(".ctrl-icon").forEach(dom => {
-                        dom.style["background-color"] = "rgba(127, 127, 127, 0.1)";
+                        dom.style["background-color"] = "var(--ctrlColor)";
                     });
                 } else {
                     document.querySelectorAll(".ctrl-icon").forEach(dom => {
-                        dom.style["background-color"] = "rgba(127, 127, 127, 0)";
+                        dom.style["background-color"] = "var(--ctrlHideColor)";
                     });
                 }
                 flag = true;
