@@ -7,6 +7,23 @@ window.onload = () => {
     // set page title
     document.title = `Code Diff - ${current}`;
 
+    // add keyboard control
+    document.body.addEventListener("keydown", e => {
+        const { ctrlKey, code } = e;
+        if (ctrlKey && (code === "ArrowLeft" || code === "ArrowRight")) {
+            // NOTE: this logic is coupling with *Dom.display, TODO: need to refactor
+            if (code === "ArrowLeft") {
+                if (prevDom && prevDom.display !== "none") {
+                    prevDom.click();
+                }
+            } else {
+                if (nextDom && nextDom.display !== "none") {
+                    nextDom.click();
+                }
+            }
+        }
+    });
+
     // TODO: control logic, throttle, UE
     window.addEventListener("mouseover", e => {
         let flag = true;

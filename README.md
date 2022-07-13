@@ -4,5 +4,5 @@
 
 -   [ ] refactor hover area logic
 -   [ ] optm hover area UE
--   [ ] add keyboard control
+-   [x] add keyboard control
 -   [ ] add mobile device logic and style
