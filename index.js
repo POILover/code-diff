@@ -35,7 +35,7 @@ app.use(function (_, res) {
 
 const port = 9526;
 app.listen(port, () => {
-    console.log(`Example app listening on http://127.0.0.1:${port}`);
+    console.log(`Open code-diff page at http://127.0.0.1:${port}/index?page=1`);
 });
 const template = readAsyncFile("./src/template.html");
 

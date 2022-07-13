@@ -7,18 +7,45 @@ window.onload = () => {
     // set page title
     document.title = `Code Diff - ${current}`;
 
-    document.body.addEventListener("mousemove", e => {
-        const windowHeight = window.innerHeight;
-        const mouseHeight = e.clientY;
-        const ratio = mouseHeight / windowHeight;
-        if (ratio < 0.7 && ratio > 0.3) {
-            document.querySelectorAll(".ctrl-icon").forEach(dom => {
-                dom.style.display = "block";
-            });
-        } else {
-            document.querySelectorAll(".ctrl-icon").forEach(dom => {
-                dom.style.display = "none";
-            });
+    // TODO: control logic, throttle, UE
+    window.addEventListener("mouseover", e => {
+        let flag = true;
+        if (flag) {
+            setTimeout(() => {
+                // middle-hover
+                // const thresY = 300;
+                // const windowHeight = window.innerHeight;
+                // const mouseY = e.clientY;
+                // const yTop = (windowHeight - thresY) / 2;
+                // const yBottom = (windowHeight + thresY) / 2;
+                // if (mouseY < yBottom && mouseY > yTop) {
+                //     document.querySelectorAll(".ctrl-icon").forEach(dom => {
+                //         dom.style.display = "block";
+                //     });
+                // } else {
+                //     document.querySelectorAll(".ctrl-icon").forEach(dom => {
+                //         dom.style.display = "none";
+                //     });
+                // }
+
+                // side-hover
+                const thresX = 200;
+                const xLeft = thresX;
+                const bodyWidth = document.body.clientWidth;
+                const mouseX = e.clientX;
+                const xRight = bodyWidth - thresX;
+                if (mouseX < xLeft || (mouseX > xRight && mouseX < bodyWidth)) {
+                    document.querySelectorAll(".ctrl-icon").forEach(dom => {
+                        dom.style["background-color"] = "rgba(127, 127, 127, 0.1)";
+                    });
+                } else {
+                    document.querySelectorAll(".ctrl-icon").forEach(dom => {
+                        dom.style["background-color"] = "rgba(127, 127, 127, 0)";
+                    });
+                }
+                flag = true;
+            }, 100);
+            flag = false;
         }
     });
 
@@ -26,13 +53,17 @@ window.onload = () => {
     const prevDom = getElementById("prev-btn");
     const nextDom = getElementById("next-btn");
     if (current === 1) {
+        prevDom.style.display = "none";
         prevDom.setAttribute("disabled", `true`);
     } else {
+        prevDom.style.display = "inline";
         prevDom.setAttribute("href", `/index?page=${current - 1}`);
     }
     if (current === total) {
+        nextDom.style.display = "none";
         nextDom.setAttribute("disabled", `true`);
     } else {
+        nextDom.style.display = "inline";
         nextDom.setAttribute("href", `/index?page=${current + 1}`);
     }
 
@@ -93,4 +124,17 @@ function resolveDiffLinesResult(diffLinesResult) {
             return valueArr.map(v => `${prefix}${v}\n`).join("");
         })
         .join("");
+}
+
+function throttle(fn, delay) {
+    let flag = true;
+    return function () {
+        if (flag) {
+            setTimeout(() => {
+                fn.call(this);
+                flag = true;
+            }, delay);
+            flag = false;
+        }
+    };
 }

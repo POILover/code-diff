@@ -9,68 +9,29 @@
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="/static/lib/css/hljs.github.css" />
     <link rel="stylesheet" type="text/css" href="/static/lib/css/diff2html.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
     <script src="/static/lib/js/diff2html-ui.min.js"></script>
     <script src="/static/lib/js/diff.js"></script>
     <script src="/static/js/index.js"></script>
 </head>
 
 <body>
-    <div class="ctrl-icon left"></div>
-    <div class="ctrl-icon right"></div>
+    <div class="ctrl-container">
+        <a id="prev-btn">
+            <div class="ctrl-icon left"></div>
+        </a>
+        <a id="next-btn">
+            <div class="ctrl-icon right"></div>
+        </a>
+    </div>
+
     <div style="display: none">
         <div id="diff-file-current">{{current}}</div>
         <div id="diff-file-total" style="display: none">{{total}}</div>
         <div id="diff-text-1" style="display: none">{{insertText1}}</div>
         <div id="diff-text-2" style="display: none">{{insertText2}}</div>
     </div>
-    <div style="font-size: 18px;" class="ctrl-btn-container">
-        <a id="prev-btn" disabled="true">←</a> <a id="next-btn">→</a>
-    </div>
     <div id="diff-ui"></div>
 </body>
-
-<style>
-    @media screen and (min-width:700px) {
-        .ctrl-btn-container {
-            display: none;
-        }
-    }
-
-    @media screen and (max-width:700px) {
-        .ctrl {
-            display: none;
-        }
-    }
-
-    .ctrl-icon {
-        position: fixed;
-        top: 50%;
-        width: 100px;
-        height: 100px;
-        mask-image: url(/static/assets/pic/svg/left.svg);
-        -webkit-mask-image: url(/static/assets/pic/svg/left.svg);
-        mask-size: cover;
-        -webkit-mask-size: cover;
-        background-color: rgba(127, 127, 127, 0.1);
-        cursor: pointer;
-        display: none;
-        z-index: 2;
-    }
-
-    .ctrl-icon.left {
-        transform: translateY(-50%);
-        left: 10px;
-    }
-
-    .ctrl-icon.right {
-        transform: translateY(-50%) rotate(180deg);
-        right: 10px;
-    }
-
-    .ctrl-icon:hover {
-        background-color: #ccc;
-
-    }
-</style>
 
 </html>

@@ -1,0 +1,44 @@
+@media screen and (min-width: 700px) {
+    .ctrl-btn-container {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .ctrl {
+        display: none;
+    }
+}
+
+.ctrl-icon {
+    position: fixed;
+    top: 50%;
+    width: 100px;
+    height: 100px;
+    mask-image: url(/static/assets/pic/svg/left.svg);
+    -webkit-mask-image: url(/static/assets/pic/svg/left.svg);
+    mask-size: cover;
+    -webkit-mask-size: cover;
+    cursor: pointer;
+    z-index: 2;
+    transition: background-color 0.5s;
+}
+
+.ctrl-icon.left {
+    transform: translateY(-50%);
+    left: 10px;
+}
+
+.ctrl-icon.right {
+    transform: translateY(-50%) rotate(180deg);
+    right: 10px;
+}
+
+.ctrl-icon:hover {
+    background-color: #ccc !important;
+}
+
+/* hack: could only see one button after into next page */
+.ctrl-container:hover .ctrl-icon {
+    background-color: rgba(127, 127, 127, 0.1);
+}
