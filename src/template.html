@@ -12,19 +12,29 @@
     <link rel="stylesheet" type="text/css" href="/static/css/index.css" />
     <script src="/static/lib/js/diff2html-ui.min.js"></script>
     <script src="/static/lib/js/diff.js"></script>
+    <script src="/static/js/pc-ctrl.js"></script>
+    <script src="/static/js/m-ctrl.js"></script>
+    <script src="/static/js/diff-and-draw.js"></script>
     <script src="/static/js/index.js"></script>
 </head>
 
 <body>
-    <div class="ctrl-container">
-        <a id="prev-btn">
-            <div class="ctrl-icon left"></div>
+    <div class="pc-ctrl-container">
+        <a id="pc-prev-btn">
+            <div class="pc-ctrl-icon ctrl-icon left"></div>
         </a>
-        <a id="next-btn">
-            <div class="ctrl-icon right"></div>
+        <a id="pc-next-btn">
+            <div class="pc-ctrl-icon ctrl-icon right"></div>
         </a>
     </div>
-
+    <div class="m-ctrl-container">
+        <a id="m-prev-btn" class="m-btn">
+            <div class="m-ctrl-icon ctrl-icon left"></div>
+        </a>
+        <a id="m-next-btn" class="m-btn">
+            <div class="m-ctrl-icon ctrl-icon right"></div>
+        </a>
+    </div>
     <div style="display: none">
         <div id="diff-file-current">{{current}}</div>
         <div id="diff-file-total" style="display: none">{{total}}</div>

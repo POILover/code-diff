@@ -1,40 +1,69 @@
-@import url('./variables.css');
+@import url("./variables.css");
 @media screen and (min-width: 700px) {
-    .ctrl-btn-container {
+    .m-ctrl-container {
         display: none;
     }
 }
 
 @media screen and (max-width: 700px) {
-    .ctrl {
+    .pc-ctrl-container {
         display: none;
     }
+    #diff-ui {
+        margin-top: 30px;
+    }
 }
-
+a {
+    text-decoration: none;
+}
 .ctrl-icon {
-    position: fixed;
-    top: 50%;
-    width: 100px;
-    height: 100px;
     mask-image: url(/static/assets/pic/svg/left.svg);
     -webkit-mask-image: url(/static/assets/pic/svg/left.svg);
     mask-size: cover;
     -webkit-mask-size: cover;
     cursor: pointer;
+    display: inline-block;
+}
+.pc-ctrl-icon {
+    position: fixed;
+    top: 50%;
+    width: 100px;
+    height: 100px;
     z-index: 2;
     transition: background-color 0.3s;
+    background-color: var(--ctrlColor);
 }
 
-.ctrl-icon.left {
+.pc-ctrl-icon.left {
     transform: translateY(-50%);
     left: 10px;
 }
 
-.ctrl-icon.right {
+.pc-ctrl-icon.right {
     transform: translateY(-50%) rotate(180deg);
     right: 10px;
 }
-
+.m-ctrl-container {
+    position: fixed;
+    top: 0;
+    padding-top: 5px;
+    background: white;
+    width: 100%;
+    z-index: 2;
+}
+.m-ctrl-icon {
+    width: 20px;
+    height: 20px;
+    background-color: var(--ctrlHoverColor);
+}
+.m-ctrl-icon.right {
+    transform: rotate(180deg);
+    float: right;
+    margin-right: 15px;
+}
+.m-btn[disabled="true"] .m-ctrl-icon {
+    background-color: var(--ctrlColor) !important;
+}
 .ctrl-icon:hover {
     background-color: var(--ctrlHoverColor) !important;
 }
@@ -42,6 +71,6 @@
     background-color: var(--ctrlFocusColor) !important;
 }
 /* hack: could only see one button after into next page */
-.ctrl-container:hover .ctrl-icon {
+.pc-ctrl-container:hover .ctrl-icon {
     background-color: var(--ctrlColor);
 }
